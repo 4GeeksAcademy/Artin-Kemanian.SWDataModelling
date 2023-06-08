@@ -14,8 +14,8 @@ class User(Base):
     contraseña = Column(String(250), nullable=False)
     idnumber = Column(Integer, nullable=False, primary_key=True)
 
-class Characters(Base):
-    __tablename__ = 'characters'
+class Character(Base):
+    __tablename__ = 'character'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     uid = Column(Integer, primary_key=True)
@@ -29,8 +29,8 @@ class Characters(Base):
     birth_year = Column(String(250), nullable=False)
     homeworld = Column(String(250), nullable=False)
 
-class Planets(Base):
-    __tablename__ = 'planets'
+class Planet(Base):
+    __tablename__ = 'planet'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     uid = Column(Integer, primary_key=True, nullable=False)
@@ -45,11 +45,13 @@ class Planets(Base):
     def to_dict(self):
         return {}
     
-class Favorites(Base):
-    __tablename__ = 'favorites'
-    planets = Column(String(250), relationship(Planets))
-    characters = Column(String(250), relationship(Characters))
+class Favorite(Base):
+    __tablename__ = 'favorite'
+    planets = Column(String(250), ForeignKey('planet.name'))
+    characters = Column(String(250), ForeignKey('character.name'))
     userID = Column(Integer, primary_key=True, nullable=False)
+    relationship(Planet)
+    relationship(Character)
 
 ## Draw from SQLAlchemy base
 try:
